@@ -1,0 +1,40 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+export interface Props extends HTMLAttributes<'div'> {
+  from: Date | string
+  to?: Date | string
+  toLabel?: string
+  format?: 'YYYY',
+  class?: string
+}
+
+let { from, toLabel, to, format, ...attr } = Astro.props
+const options: Intl.DateTimeFormatOptions = {
+  year: "numeric",
+  month: "long",
+  day: "2-digit",
+}
+
+if(typeof from === 'string') {
+  from = new Date(from)
+}
+if(typeof to === 'string') {
+  if (to.toLocaleLowerCase() !== "now") {
+    to = new Date(to)
+  }
+}
+
+if(format === 'YYYY') {
+  options.month = undefined
+  options.day = undefined
+}
+
+const fromOutput = from.toLocaleString('en-EN', options)
+const toOutput = to?.toLocaleString('en-EN', options)
+---
+
+<div class:list={[attr.class]}>
+  {fromOutput}
+  {fromOutput !== toOutput && toOutput && `— ${toOutput}`}
+</div>

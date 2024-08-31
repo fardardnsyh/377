@@ -1,0 +1,30 @@
+---
+import Layout from '@layouts/Layout.astro';
+import Intro from '@src/components/home/Intro.astro';
+import Resume from '@src/components/home/Resume.astro';
+import HomepageLink from '@src/components/home/HomepageLink.astro';
+import Project from '@src/components/home/Project.astro';
+// import type { ProjectFrontmatter } from '@src/types/Project';
+import { getCollection } from "astro:content";
+const homepageLinks = await getCollection("homepageLinks");
+const projects = await getCollection("projects");
+
+// const projects: {
+//   frontmatter: ProjectFrontmatter;
+//   compiledContent: () => string;
+// }[] = await Astro.glob('../pages/projects/*.md');
+---
+<style>
+
+</style>
+
+<Layout>
+  <Intro />
+  <Resume />
+  {projects.map(async (project) => {
+    const { Content}  = await project.render()
+    return <Project {...project.data} Content={Content}} />})}
+  {homepageLinks.map(link => <HomepageLink {...link.data} />)}
+</Layout>
+
+

@@ -1,0 +1,42 @@
+---
+
+import Header from '@components/Header.astro'
+import '@styles/global.css'
+import "@fontsource/source-sans-pro"
+import Footer from '@src/components/Footer.astro';
+
+export interface Props {
+  title?: string
+  description?: string;
+  className?: string;
+}
+
+const defaults = {
+  title:"Lukas Oppermann — Lead UI/UX, Design Systems &amp; Creative Technologist",
+  description: "Lukas Oppermann is a design lead and creative director from berlin, germany. He loves creating experiences with a focus on usability."
+}
+const { title, description, className } = Astro.props;
+
+---
+
+<html lang='en'>
+  <head>
+    <title>{title || defaults.title}</title>
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <meta property="og:title" content={`${title || defaults.title}`} />
+    <meta name="description" content={description || defaults.description} >
+    <meta charset="UTF-8">
+    <link rel="icon" href="/favicon-veare.svg" />
+    <link rel="mask-icon" href="/safari-mask-icon.svg" color="#f0aa1e" />
+    <link rel="apple-touch-icon" href="/veare-apple-touch-icon-180.png" />
+    {/* <link href='https://fonts.googleapis.com/css?family=Montserrat:700|Noto+Serif:400,400i,400b|Source+Sans+Pro:400,600|Source+Code+Pro:700&display=swap' rel='stylesheet' /> */}
+    <meta name="color-scheme" content="light dark" />
+  </head>
+  <body>
+    <Header></Header>
+    <main class:list={["Grid", className]}>
+      <slot />
+    </main>
+    <Footer />
+  </body>
+</html>

@@ -1,0 +1,35 @@
+---
+import type { HTMLAttributes } from 'astro/types'
+import LogoSvg from '@svgs/lukas-oppermann-logo.svg?raw'
+import Svg from './Svg.astro';
+
+interface Props extends HTMLAttributes<'a'> {
+  href?: string,
+  small?: boolean,
+}
+
+const { href, small, ...attr } = Astro.props;
+---
+<style>
+  a, div {
+    fill: var(--on-background__high-emphasis);
+    display: block;
+    height: 30px;
+    &.is-small {
+      height: 16px;
+    }
+    & svg {
+      height: 100%;
+    }
+  }
+</style>
+
+  {href ? 
+    <a class:list={[(small && 'is-small'), attr.class]} aria-label='Go to homepage' href={href} {...attr}>
+      <Svg svgString={LogoSvg} />
+    </a>
+  :
+    <div class:list={[(small && 'is-small'), attr.class]}>
+      <Svg svgString={LogoSvg} />
+    </div>
+  }
